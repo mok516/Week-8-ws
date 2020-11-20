@@ -19,6 +19,7 @@ library(palmerpenguins)
 library(tidyverse)
 library(GGally)
 library(ggplot2)
+library(Rtsne)
 ```
 
 # Introduction
@@ -70,14 +71,12 @@ wheat %>%
 <!-- look at pca -->
 ```{r pca}
 pca <- wheat %>% 
-  select(area, perimeter,
-         compact, length_of_kernel,
-         length_of_kernel_groove,
-         width_of_kernel, asymmetry_coefficient) %>%
+  select(-strain) %>%
   prcomp(scale. = TRUE)
 
 # view pca
 summary(pca)
+# nearly 99% varaition is in the first 3 
 pca$rotation
 
 # extract the scores into a dataframe with the strain names
@@ -87,5 +86,15 @@ pca_labelled <- data.frame(pca$x, strain = wheat$strain)
 pca_labelled %>% ggplot(aes(x = PC1, y = PC2, color = strain)) +
   geom_point(size = 2) +
   scale_color_manual(values = c("purple", "red", "yellow"))
+```
+<!-- t-SNE is a non-parametric, non-linear method that prioritises placing similar observations near each other. -->
+<!-- It is a probabilistic method and is computational intensive. -->
+```{r tsne}
+tsne <- wheat %>% 
+  select(-strain) %>% 
+  Rtsne(perplexity = 20, check_duplicates = FALSE)
+
+datwheat <- data.frame(tsne$Y, strain = wheat$strain)
+datwheat %>% ggplot(aes(x = X1, y = X2, colour = strain)) + geom_point()
 ```
 
