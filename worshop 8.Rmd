@@ -45,3 +45,26 @@ names(seed)[names(seed)=="V8"] <- "strain"
 view(seed)
 ```
 
+<!-- clean the variable names -->
+```{r clean}
+wheat <- seed %>%
+  janitor::clean_names()
+# look at the 8 variables 
+wheat %>% select(everything()) %>% 
+  summary()
+
+# strain is numerical lets make it catagorical 
+wheat$strain <- recode(wheat$strain,
+                       '1' = "Karma",
+                       '2' = "Rosa",
+                       '3' = "Canadian")
+view(wheat)
+```
+<!-- No values are missing  -->
+```{r visualise}
+wheat %>% 
+  select(everything()) %>% 
+  ggpairs(aes(color = strain)) +
+  scale_color_manual(values = c("purple", "red", "yellow"))
+```
+
