@@ -1,0 +1,47 @@
+---
+title: "Wheat Seed dataset"
+author: "Molly Krzeczkowski"
+date: "20/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      error = FALSE,
+                      message = FALSE,
+                      fig.retina = 3)
+```
+
+<!-- load packages  -->
+```{r packages}
+library(palmerpenguins)
+library(tidyverse)
+library(GGally)
+library(ggplot2)
+```
+
+# Introduction
+
+The Wheat Seeds Dataset contains measurements of seed kernels from different varieties of wheat: Kama (1), Rosa (2) and Canadian (3). High quality visualization of the internal kernel structure was detected using a soft X-ray technique and 7 measurements were taken :Area, Perimeter, Compactness, Length of kernel, Width of kernel, Asymmetry coefficient, Length of kernel groove
+
+We will investiage whether these variables might be useful to classify the species 
+
+```{r data}
+file <- "C:/Users/molsk/R work/Stage 3/week 8/Week-8-ws/raw_data/seeds_dataset.txt"
+seed <- read.table(file, header = FALSE)
+str(seed)
+view(seed)
+#rename columns
+names(seed)[names(seed)=="V1"] <- "area"
+names(seed)[names(seed)=="V2"] <- "perimeter"
+names(seed)[names(seed)=="V3"] <-"compact"
+names(seed)[names(seed)=="V4"] <- "length.of.kernel"
+names(seed)[names(seed)=="V5"] <- "width_of_kernel"
+names(seed)[names(seed)=="V6"] <- "asymmetry.coefficient"
+names(seed)[names(seed)=="V7"] <- "length_of_kernel_groove"
+names(seed)[names(seed)=="V8"] <- "strain"
+
+view(seed)
+```
+
