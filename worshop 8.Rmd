@@ -67,4 +67,25 @@ wheat %>%
   ggpairs(aes(color = strain)) +
   scale_color_manual(values = c("purple", "red", "yellow"))
 ```
+<!-- look at pca -->
+```{r pca}
+pca <- wheat %>% 
+  select(area, perimeter,
+         compact, length_of_kernel,
+         length_of_kernel_groove,
+         width_of_kernel, asymmetry_coefficient) %>%
+  prcomp(scale. = TRUE)
+
+# view pca
+summary(pca)
+pca$rotation
+
+# extract the scores into a dataframe with the strain names
+pca_labelled <- data.frame(pca$x, strain = wheat$strain)
+
+# make a scatterplot 
+pca_labelled %>% ggplot(aes(x = PC1, y = PC2, color = strain)) +
+  geom_point(size = 2) +
+  scale_color_manual(values = c("purple", "red", "yellow"))
+```
 
